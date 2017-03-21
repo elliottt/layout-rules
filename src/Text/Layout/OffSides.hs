@@ -2,29 +2,42 @@
 {-# LANGUAGE RecordWildCards #-}
 
 module Text.Layout.OffSides (
+
+    -- * Off-sides Rule
     Layout(..),
     layout,
+
+    -- ** Utilities
+    wrapToken,
   ) where
 
 import AlexTools
+import qualified Data.Text as T
 
 
 data Layout tok = Layout { beginsLayout :: tok -> Bool
                            -- ^ True when this token begins layout
-  
+
                          , endsLayout :: tok -> Bool
                            -- ^ True when this token explicitly ends layout
-  
+
                          , sep :: SourceRange -> Lexeme tok
                            -- ^ The separator token
-  
+
                          , start :: SourceRange -> Lexeme tok
                            -- ^ Layout block starting token
-  
+
                          , end :: SourceRange -> Lexeme tok
                            -- ^ Layout block ending token
                          }
 
+
+-- | Turn a single token into the form required by the 'Layout' type.
+wrapToken :: tok -> SourceRange -> Lexeme tok
+wrapToken lexemeToken lexemeRange = Lexeme { lexemeText = T.empty, .. }
+
+
+-- | The off-sides rule.
 layout :: Layout tok -> [Lexeme tok] -> [Lexeme tok]
 layout Layout { .. } = go Nothing []
   where
