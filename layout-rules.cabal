@@ -12,6 +12,14 @@ build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
+description:
+  A collection of different layout implementations, currently just the off-sides
+  rule.
+
+source-repository head
+  type: git
+  location: https://github.com/elliottt/layout-rules
+
 library
   exposed-modules:     Text.Layout.OffSides
   build-depends:       base >=4.7 && < 5,
